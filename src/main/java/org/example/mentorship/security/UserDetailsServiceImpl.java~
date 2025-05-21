@@ -1,5 +1,0 @@
-package org.example.mentorship.security;
-
-public class UserDetailsServiceImpl {
-
-}

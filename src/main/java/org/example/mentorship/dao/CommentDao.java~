@@ -1,4 +1,0 @@
-package org.example.mentorship.dao;
-
-public interface CommentDao {
-}
