@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentors List | Mentorship</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <a href="/" class="logo">Mentorship</a>
+        <nav>
+            <ul>
+                <li><a th:href="@{/student/home}" class="btn btn-secondary"><i class="fas fa-home"></i> Home</a></li>
+                <li><a th:href="@{/feedback}" class="btn btn-secondary"><i class="fas fa-comment"></i> Feedback</a></li>
+                <li><a th:href="@{/student/requests}" class="btn btn-secondary"><i class="fas fa-list"></i> My Requests</a></li>
+                <li><a th:href="@{/logout}" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <h1>Mentors List</h1>
+    <a th:href="@{/student/home}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    <div th:if="${error != null}" class="error" th:text="${error}"></div>
+    <table>
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Age</th>
+            <th>Specialization</th>
+            <th>Experience (Years)</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="mentor : ${mentors}">
+            <td th:text="${mentor.username}"></td>
+            <td th:text="${mentor.age}"></td>
+            <td th:text="${mentor.specialization}"></td>
+            <td th:text="${mentor.experienceYears}"></td>
+            <td>
+                <form th:action="@{/student/mentors/{id}/request(id=${mentor.idUser})}" th:object="${consultationRequest}" method="post">
+                    <div class="form-group">
+                        <textarea th:field="*{requestMessage}" placeholder="Enter your request message" required></textarea>
+                        <span th:errors="*{requestMessage}" class="error"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send Request</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 Mentorship Platform. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

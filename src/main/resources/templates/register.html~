@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <script>
+        function toggleFields() {
+            const role = document.getElementById("role").value;
+            const studentFields = document.getElementById("studentFields");
+            const mentorFields = document.getElementById("mentorFields");
+            studentFields.style.display = role === "student" ? "block" : "none";
+            mentorFields.style.display = role === "mentor" ? "block" : "none";
+        }
+
+        window.onload = function() {
+            toggleFields();
+        };
+    </script>
+    <style>
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+<h2>Register</h2>
+<form th:action="@{/register}" method="post">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" th:field="*{user.username}"/>
+        <span th:errors="*{user.username}" class="error"></span>
+    </div>
+    <div>
+        <label for="age">Age:</label>
+        <input type="number" id="age" th:field="*{user.age}"/>
+        <span th:errors="*{user.age}" class="error"></span>
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" th:field="*{user.email}"/>
+        <span th:errors="*{user.email}" class="error"></span>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" th:field="*{user.password}"/>
+        <span th:errors="*{user.password}" class="error"></span>
+    </div>
+    <div>
+        <label for="profileDescription">Profile Description (optional):</label>
+        <textarea id="profileDescription" th:field="*{user.profileDescription}"></textarea>
+    </div>
+    <div>
+        <label for="role">Role:</label>
+        <select id="role" th:field="*{user.role}" onchange="toggleFields()">
+            <option value="student">Student</option>
+            <option value="mentor">Mentor</option>
+        </select>
+        <span th:errors="*{user.role}" class="error"></span>
+    </div>
+    <div id="studentFields">
+        <h3>Student Information</h3>
+        <div>
+            <label for="university">University:</label>
+            <input type="text" id="university" th:field="*{student.university}"/>
+            <span th:errors="*{student.university}" class="error"></span>
+        </div>
+        <div>
+            <label for="studyYear">Study Year:</label>
+            <input type="number" id="studyYear" th:field="*{student.studyYear}"/>
+            <span th:errors="*{student.studyYear}" class="error"></span>
+        </div>
+        <div>
+            <label for="educationLevel">Education Level:</label>
+            <input type="text" id="educationLevel" th:field="*{student.educationLevel}"/>
+            <span th:errors="*{student.educationLevel}" class="error"></span>
+        </div>
+    </div>
+    <div id="mentorFields" style="display: none;">
+        <h3>Mentor Information</h3>
+        <div>
+            <label for="specialization">Specialization:</label>
+            <input type="text" id="specialization" th:field="*{mentor.specialization}"/>
+            <span th:errors="*{mentor.specialization}" class="error"></span>
+        </div>
+        <div>
+            <label for="experienceYears">Experience Years:</label>
+            <input type="number" id="experienceYears" th:field="*{mentor.experienceYears}"/>
+            <span th:errors="*{mentor.experienceYears}" class="error"></span>
+        </div>
+    </div>
+    <button type="submit">Register</button>
+</form>
+</body>
+</html>

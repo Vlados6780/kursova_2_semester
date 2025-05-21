@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | Mentorship</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <a href="/" class="logo">Mentorship</a>
+        <nav>
+            <ul>
+                <li><a th:href="@{/feedback}" class="btn btn-secondary"><i class="fas fa-comment"></i> Feedback</a></li>
+                <li><a th:href="@{/student/mentors}" class="btn btn-secondary"><i class="fas fa-users"></i> View Mentors</a></li>
+                <li><a th:href="@{/student/requests}" class="btn btn-secondary"><i class="fas fa-list"></i> My Requests</a></li>
+                <li>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <h1>Welcome, <span th:text="${user.username}"></span>!</h1>
+    <p>This is your student dashboard.</p>
+
+    <h2>Your Information</h2>
+    <ul>
+        <li><strong>Username:</strong> <span th:text="${user.username}"></span></li>
+        <li><strong>Age:</strong> <span th:text="${user.age}"></span></li>
+        <li><strong>Email:</strong> <span th:text="${user.email}"></span></li>
+        <li><strong>Profile Description:</strong> <span th:text="${user.profileDescription} ?: 'Not provided'"></span></li>
+        <li><strong>University:</strong> <span th:text="${student.university} ?: 'Not provided'"></span></li>
+        <li><strong>Study Year:</strong> <span th:text="${student.studyYear} ?: 'Not provided'"></span></li>
+        <li><strong>Education Level:</strong> <span th:text="${student.educationLevel} ?: 'Not provided'"></span></li>
+    </ul>
+
+    <button id="editButton" onclick="toggleEditForm()" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</button>
+
+    <div id="editForm" class="edit-form" style="display: none;">
+        <h2>Edit Information</h2>
+        <form th:action="@{/update}" method="post">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input th:field="${user.username}" name="user.username" id="username" />
+                <span th:errors="*{user.username}" class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" th:field="${user.age}" name="user.age" id="age" />
+                <span th:errors="*{user.age}" class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="profileDescription">Profile Description:</label>
+                <textarea th:field="${user.profileDescription}" name="user.profileDescription" id="profileDescription"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="university">University:</label>
+                <input th:field="${student.university}" name="student.university" id="university" />
+                <span th:errors="*{student.university}" class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="studyYear">Study Year:</label>
+                <input type="number" th:field="${student.studyYear}" name="student.studyYear" id="studyYear" />
+                <span th:errors="*{student.studyYear}" class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="educationLevel">Education Level:</label>
+                <input th:field="${student.educationLevel}" name="student.educationLevel" id="educationLevel" />
+                <span th:errors="*{student.educationLevel}" class="error"></span>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Update</button>
+        </form>
+    </div>
+
+    <form th:action="@{/delete}" method="post" onsubmit="return confirm('Are you sure you want to delete your account?');">
+        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete Account</button>
+    </form>
+</main>
+
+<footer>
+    <div class="container">
+        <p>© 2025 Mentorship Platform. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    function toggleEditForm() {
+        const editForm = document.getElementById("editForm");
+        const editButton = document.getElementById("editButton");
+        if (editForm.style.display === "none" || editForm.style.display === "") {
+            editForm.style.display = "block";
+            editButton.innerHTML = '<i class="fas fa-times"></i> Cancel Edit';
+        } else {
+            editForm.style.display = "none";
+            editButton.innerHTML = '<i class="fas fa-edit"></i> Edit';
+        }
+    }
+</script>
+</body>
+</html>

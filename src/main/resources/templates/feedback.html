@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback | Mentorship</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <a href="/" class="logo">Mentorship</a>
+        <nav>
+            <ul>
+                <li><a th:href="@{/}" class="btn btn-secondary"><i class="fas fa-home"></i> Home</a></li>
+                <li><a th:href="@{/logout}" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <h1>Feedback</h1>
+    <a th:href="@{/}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    <h2>All Users</h2>
+    <div th:if="${error != null}" class="error" th:text="${error}"></div>
+    <table>
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Age</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.age}"></td>
+            <td th:text="${user.email}"></td>
+            <td><a th:href="@{/feedback/{id}(id=${user.idUser})}" class="btn btn-primary"><i class="fas fa-comment"></i> View Comments</a></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 Mentorship Platform. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

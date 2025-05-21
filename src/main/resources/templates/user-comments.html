@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments for <span th:text="${targetUser.username}"></span> | Mentorship</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <a href="/" class="logo">Mentorship</a>
+        <nav>
+            <ul>
+                <li><a th:href="@{/feedback}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Feedback</a></li>
+                <li><a th:href="@{/logout}" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <h1>Comments for <span th:text="${targetUser.username}"></span></h1>
+    <h2>User Details</h2>
+    <ul>
+        <li><strong>Username:</strong> <span th:text="${targetUser.username}"></span></li>
+        <li><strong>Age:</strong> <span th:text="${targetUser.age}"></span></li>
+        <li><strong>Email:</strong> <span th:text="${targetUser.email}"></span></li>
+    </ul>
+
+    <h2>Comments</h2>
+    <div th:if="${comments.isEmpty()}">No comments yet.</div>
+    <ul>
+        <li th:each="comment : ${comments}">
+            <strong th:text="${comment.authorUsername}"></strong>:
+            <span th:text="${comment.content}"></span>
+            (<span th:text="${comment.postedAt}"></span>)
+        </li>
+    </ul>
+
+    <h2>Add Comment</h2>
+    <form th:action="@{/feedback/{id}/comment(id=${targetUser.idUser})}" th:object="${newComment}" method="post">
+        <div class="form-group">
+            <label for="content">Comment:</label>
+            <textarea id="content" th:field="*{content}" required></textarea>
+            <span th:errors="*{content}" class="error"></span>
+        </div>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-comment"></i> Submit</button>
+    </form>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 Mentorship Platform. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>
